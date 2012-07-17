@@ -1,0 +1,91 @@
+﻿
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"> 
+<head> 
+<title>Xaraya :: Using PMDCI's Flag Pack in Xaraya with Dynamic Country List</title> 
+</head> 
+<body> 
+<div class="display-documentation"> 
+    <h1>Using Country Flag Images in Xaraya with Dynamic Country List</h1> 
+<p>Level: Intro | Author: Pedro Innecco | 22 December 2005</p>
+<p>Original Document can be found at <a href="http://www.xaraya.com/index.php/documentation/562">http://www.xaraya.com/index.php/documentation/562</a></p>
+<p>The Country Flags pack created by Pedro Innecco is designed to be used with the Country List property within Xaraya. By using these flags and the proper templates, a Xaraya-powered site can display the flag of the country/region selected from the Country List property. This tutorial demonstrates how to:
+<ul>
+<li>Display a user's flags in the user's profile</li>
+<li>Display users' flags in the Members List of a site</li>
+</ul></p>
+    <h2>1. Install the Flag Pack</h2> 
+<ol style="list-style-type: lower-alpha"> 
+	<li>Download the Flag Page from <a rel="external" href="http://www.wildkinetics.com/downloads/xar-territories-flagpack.zip">http://www.wildkinetics.com/downloads/xar-territories-flagpack.zip</a></li> 
+	<li>Unpack these flags under the <span class="xar-variable">themes/<span class="xar-userinput">your-theme-dir</span>/modules/base/images</span> directory of your Xaraya installation. Alternatively, you could also unpack these flags under the  <span class="xar-variable">modules/base/images</span> directory of your theme.  Adjust the $imagedir variable in the showinput-countrylist.xt template below appropriately if you use your system base images directory. See the note below.<br /> 
+	</li> 
+</ol>
+<h2>2. Create the Country List override templates</h2>   
+<p> 
+You need to create override templates for the Country List Dynamic Data templates  <strong>showinput-countrylist.xd</strong> and  <strong>showoutput-countrylist.xd</strong> for the flags to be  displayed or replace your system templates. 
+</p> 
+<ol style="list-style-type: lower-alpha"> 
+	<li>To create override templates, copy the template code in the examples below and rename the file as indicated.</li> 
+	<li>Place the templates as overrides in under <span class="xar-variable"><strong>themes/<span class="xar-userinput">your-theme-dir</span>/modules/base/properties</strong></span> directory of your  Xaraya installation. <br /> 
+	<br /> 
+	Alternatively, you could also place these templates under the <strong class="xar-variable">modules/base/xartemplates/properties</strong> directory. However, if this is the case you should rename the extension of these files from  <strong>xt </strong>to <strong>xd</strong>. Jojodee has created the following templates that one could use as a kick-start. <br /> 
+	<br /> 
+	</li> 
+</ol> 
+<h3>Template for showinput-countrylist.xt</h3> 
+<textarea name="code" class="xml" rows="19" cols="100">&lt;xar:set name=&quot;imagedir&quot;&gt;xarTplGetThemeDir().&#39;/modules/base/images&#39;&lt;/xar:set&gt;
+&lt;xar:set name=&quot;countryname&quot;&gt;&#39;&#39;&lt;/xar:set&gt;
+&lt;select name=&quot;#$name#&quot; id=&quot;#$id#&quot; tabindex=&quot;#$tabindex#&quot;  onChange=&#39;document.getElementById(&quot;#$id#image&quot;).src=&quot;#$imagedir#&quot; +&quot;/&quot;+ document.getElementById(&quot;#$id#&quot;).options[document.getElementById(&quot;#$id#&quot;).selectedIndex].value +&quot;-flag.png&quot;;&#39;&gt;
+&lt;xar:foreach in=&quot;$options&quot; value=&quot;$option&quot; &gt;
+&lt;xar:if condition=&quot;$value eq $option[&#39;id&#39;]&quot; &gt;
+&lt;option value=&quot;#$option[&#39;id&#39;]#&quot; selected=&quot;selected&quot;&gt;#$option[&#39;name&#39;]#&lt;/option&gt;
+&lt;xar:set name=&quot;countryname&quot;&gt;#$option[&#39;name&#39;]#&lt;/xar:set&gt;
+&lt;xar:else /&gt;
+&lt;option value=&quot;#$option[&#39;id&#39;]#&quot;&gt;#$option[&#39;name&#39;]#&lt;/option&gt;
+&lt;/xar:if&gt;
+&lt;/xar:foreach&gt;
+&lt;/select&gt;
+&lt;img id=&quot;#$id#image&quot; src=&quot;#xarTplGetImage(&#39;flag_&#39;.$value[&#39;id&#39;].&#39;.png&#39;,&#39;base&#39;)#&quot; /&gt;
+&lt;xar:if condition=&quot;!empty($invalid)&quot;&gt;
+&lt;span class=&quot;xar-error&quot;&gt;#$invalid#&lt;/span&gt;
+&lt;/xar:if&gt;</textarea><p> 
+<p> 
+The above template is used when the user is editing the country list property (that is, making a selection from the country drop-down list). It will modify  the drop-down list containing the country names, so when the user selects a  country, the country flag will appear on the right side of the drop-down list. 
+</p> 
+<p> 
+<strong>Note</strong>:<br /> 
+if you place the flag images in your system directory instead of using override directory in your theme you should adjust the <span class="xar-variable">$imagedir</span> variable in line 2 above and set to <span class="xar-variable">/modules/base/images/</span> only.
+</p> 
+<h3>Template for showoutput-countrylist.xt</h3> 
+</p> 
+<textarea name="code" class="xml" rows="13" cols="100">&lt;xar:comment&gt; License: GPL <a rel="external" href="http://www.gnu.org/copyleft/gpl" title="Visit the website [url]http://www.gnu.org/[/url]">http://www.gnu.org/copyleft/gpl</a>.html &lt;/xar:comment&gt;
+&lt;xar:if condition=&quot;!empty($value)&quot;&gt;
+&lt;xar:comment&gt;Set the country code to uppercase&lt;/xar:comment&gt;
+&lt;xar:set name=&quot;formattedcode&quot;&gt;strtoupper($value[&#39;id&#39;])&lt;/xar:set&gt;
+&lt;xar:comment&gt;For those that want UK instead of GB&lt;/xar:comment&gt;
+&lt;xar:if condition=&quot;$value eq &#39;gb&#39;&quot;&gt;
+&lt;xar:set name=&quot;formattedcode&quot;&gt;&#39;UK&#39;&lt;/xar:set&gt;
+&lt;/xar:if&gt;
+&lt;img src=&quot;#xarTplGetImage(&#39;flag_&#39;.$value[&#39;id&#39;].&#39;.png&#39;,&#39;base&#39;)#&quot; alt=&quot;#$value[&#39;name&#39;]# flag&quot; /&gt;
+#$value[&#39;name&#39;]# (#$formattedcode#)
+&lt;/xar:if&gt;
+</textarea><p> 
+The above template is used when a user is viewing the country list property  (for example, viewing a user&#39;s profile that contains the country list property). It will modify the output so the country flag is displayed before the country  name and code. 
+<p> 
+Line 9 of the above code is what formats and display the country name  and flag. You can see that the first bit to be displayed is the country flag by using the function <strong>xarTplGetImage()</strong>. In this function,  <strong>
+    &#39;flag_&#39;.$value.&#39;.png&#39;</strong>  looks for the filename where  <strong>$value</strong> is the ISO3166  code of the given country. The <strong>&#39;base&#39;</strong> bit basically tells  the <strong>xarTplGetImage() </strong>function to look for the flag file in within the <em>Base</em> module. Still looking at the flag, you can see that the  <strong>&lt;img&gt;</strong> tag is has an <strong>alt</strong> attribute that says <strong>#</strong><strong>$value[&#39;name&#39;]</strong><strong># flag</strong>. This would output an  <strong>alt</strong> value such as <em>&quot;Brazil flag&quot;</em>, <em>&quot;United Kingdom  flag&quot;</em>, <em>&quot;Uruguay flag&quot;</em> and so on depending of the country name - so we  keep on the XHTML standard which requests all images to have  <strong>alt</strong> tags.
+</p> 
+<p> 
+On line 10 of the above code, you can see that after the img tag  is closed we have <strong>#$value[&#39;name&#39;]# (#$formattedcode#)</strong>. This  would output the country name followed by it&#39;s ISO3166 code between parenthesis. For example: <em>Brazil (BR)</em>, <em>Uruguay (UY)</em>,  <em>Israel (IL)</em> and so on.<br /> 
+<br /> 
+</p> 
+<h2>3. Explanatory notes </h2>   
+<p> 
+There are two last things I would like to comment on this template:
+</p> 
+<ol style="list-style-type: lower-alpha"> 
+	<li>By following the standards, the country codes should be in lowercase (such  as <strong>br</strong>, <strong>uy</strong> or <strong>il</strong>). However, for aesthetics purposes, we  would prefer to display them in upper-case. See the 4th line of the above code? That is what converts the country codes to uppercase (therefore <strong>BR</strong>,  <strong>UY</strong> or <strong>IL</strong>).  </li> 
+	<li>On the 6th line of the above code there is a condition  <strong>&lt;xar:if&gt;</strong> - can you see it? What it does is quite simple: According to the ISO3166, the code for United  Kingdom is GB (as in &quot;Great Britain&quot;). However, this doesn&#39;t coincide with  the UK&#39;s <em>Internet&#39;s Top Level Domain Code</em>. But the ISO is the ISO, and we  wanted to keep with the standard. So what this  <strong>&lt;xar:if&gt;</strong> statement does is to make sure that if the  code to be displayed is GB, to output UK instead.</li>
+</ol>
+</div>
+</body> 
+</html> 

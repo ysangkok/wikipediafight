@@ -1,0 +1,60 @@
+VERSION HISTORY
+===============
+Version 2.1.1 [2012-Jun-25] :
+
+1.  UPDATED the flags.csv structure and renamed it to countries.csv. The file now contains the following columns: ISO 3166-1 Alpha-2 Code, ISO 3166-1 Alpha-3 Code, ISO 3166-1 Numeric Code, ISO 3166-1 Official Name (en), Name (en), Name (pt_BR), Microsoft Outlook 2010 Name (en)
+
+
+
+Version 2.1.0 [2012-Feb-29] :
+
+1.  UPDATED Flag: BO
+2.  Moved flag icons from the FLAGS directory to a FLAGS\16 directory in the archive, to make way for future flag sizes (24, 32, 48, 64)
+
+
+
+Version 2.0.3 [2011-Dec-20] :
+
+1.  UPDATED the flags.csv file to contain country names in English
+2.  UPDATED the SD Alpha Numeric Code from 738 to 729
+
+
+
+Version 2.0.2 [2011-Sep-19] :
+
+1.  UPDATED Flag: LY
+2.  UPDATED the command prompt script file to check for control file in the specified directory
+
+
+
+Version 2.0.1 [2011-Aug-20] :
+
+1.  ADDED Flags: SS
+
+
+
+Version 2.0 [2011-Mar-11] :
+
+1.  REMOVED Flags: AN, CS
+2.  ADDED Flags: BL (copy of FR), BQ (copy of NL), CW, MF (copy of FR), SX
+3.  UPDATED Flags: CC, IQ, MM, MW, TK
+4.  UPDATED the Moved documents into the DOCS folder and flags under the FLAGS folder
+5.  UPDATED the Xaraya 1.x tutorial
+6.  ADDED a flags.csv (comma separated value) file for user refefence listing all flags with their Alpha-2 Code and Numeric codes
+7.  ADDED a command prompt script file named FLAGPACK-MV.CMD to assist in the renaming of flag icon files between ISO 3166-1 Alpha-2 code or the numeric code
+8.  UPDATED license. PMDCI's Flag Pack by Pedro Innecco is now licensed under a Creative Commons Attribution-NoDerivs 3.0 Unported License
+
+
+
+Version 1.1 [2006-Jul-31] :
+
+1.  ADDED Flags: ME, SR and BV (copy of NO)
+2.  UPDATED Flags: LS, CD and RE (copy of FR)  
+3.  UPDATED the Xaraya 1.x documentation templates to reflect changes in Xaraya's 1.1x CountryList property. Thanks to Jojodee
+4.  UPDATED archive structure so files are not extracted into a subdirectory
+
+
+
+Version 1.0 [2005-Oct-22] :
+
+1.  Initial Release
