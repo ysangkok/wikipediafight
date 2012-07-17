@@ -1,6 +1,9 @@
 <?php
-ob_start();
+define("TESTING", false);
+if (!TESTING) ob_start();
 chdir("www");
+require_once("flag.php");
+require_once("winners.php");
 define("NUM", 50);
 function fmtlnk($org) {
 	$p1rawurl = str_replace("\'","'",$org);
@@ -53,12 +56,13 @@ margin: 1em;
 <h1>Wikipedia Fight Results</h1>
 <h2>Winners</h2>
 <table class="table table-striped table-condensed">
-<tr><th>Article<th>Count
+<tr><th>article<th>count<th>voter majority origin<th>average consideration time [seconds]</tr>
 <?php
-require_once("winners.php");
 $winners = winners();
 foreach ($winners as $winner) {
-	echo "<tr><td><a href='http://en.wikipedia.org/wiki/" . fmturl($winner["article"]) . "'>" . fmtlnk($winner['article']) . "</a><td>${winner['count']}</tr>\n";
+	$countryhtml = codetoflag($winner["country"]);
+	$output_thinking_time = number_format($winner['avgthinktime'] / 1000, 1, '.', '');
+	echo "<tr><td><a href='http://en.wikipedia.org/wiki/" . fmturl($winner["article"]) . "'>" . fmtlnk($winner['article']) . "</a><td>${winner['count']}<td>$countryhtml<td>$output_thinking_time</tr>\n";
 }
 
 $c = file_get_contents("/tmp/vote.txt");
@@ -99,7 +103,6 @@ foreach ($ar as &$line) {
 		$remote_addr = (string) $matches[4];
 		$unix_time = (int) $matches[5];
 		$output_thinking_time = number_format($thinkingtime / 1000, 1, '.', '');
-		require_once("flag.php");
 		$flaghtml = iptoflag($remote_addr);
 		echo "<tr><td$winstr1>$p1html<td$winstr2>$p2html<td>$output_thinking_time<td>$flaghtml</tr>\n";
 	} else {
@@ -112,9 +115,13 @@ foreach ($ar as &$line) {
 </body>
 </html>
 <?php
+if (!TESTING) {
 $c = ob_get_contents();
 ob_clean();
 file_put_contents("cachedshowdata.html", $c);
 file_put_contents("php://stderr","Wrote new page...\n");
+} else {
+break;
+}
 }
 ?>
