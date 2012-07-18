@@ -27,7 +27,7 @@ function limit_text($text, $limit) {
 $lasttime = 0;
 
 while(true) {
-if (microtime(true) - $lasttime < 5) {
+if (microtime(true) - $lasttime < 60) {
 	file_put_contents("php://stderr","Sleeping...\n");
 	sleep(1);
 	continue;
@@ -119,7 +119,7 @@ if (!TESTING) {
 $c = ob_get_contents();
 ob_clean();
 file_put_contents("cachedshowdata.html", $c);
-file_put_contents("php://stderr","Wrote new page...\n");
+file_put_contents("php://stderr","Wrote new page (took " . (microtime(true)-$lasttime) . " sec.)...\n");
 } else {
 break;
 }
