@@ -9,8 +9,7 @@ function getmaxcountry($arr) {
 }
 
 function winners() {
-$c = file_get_contents("/tmp/vote.txt");
-$ar = explode("\n", $c);
+$ar = file("/tmp/vote.txt", FILE_IGNORE_NEW_LINES);
 $counts = array();
 $times = array();
 $ips = array();

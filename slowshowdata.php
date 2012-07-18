@@ -65,8 +65,8 @@ foreach ($winners as $winner) {
 	echo "<tr><td><a href='http://en.wikipedia.org/wiki/" . fmturl($winner["article"]) . "'>" . fmtlnk($winner['article']) . "</a><td>${winner['count']}<td>$countryhtml<td>$output_thinking_time</tr>\n";
 }
 
-$c = file_get_contents("/tmp/vote.txt");
-$ar = array_reverse(explode("\n", $c));
+$c = file("/tmp/vote.txt",FILE_IGNORE_NEW_LINES);
+$ar = array_reverse($c);
 ?>
 </table>
 <h2>Votes</h2>
